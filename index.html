@@ -5352,6 +5352,15 @@
                         <span class="toggle-knob"></span>
                     </div>
                 </div>
+                <div class="settings-group">
+                    <span class="settings-label">
+                        <i class="fas fa-percent"></i> 画加扣除手续费
+                        <span style="font-size:11px;font-weight:400;color:var(--text-muted);margin-left:6px;">关闭后画加稿件不再自动扣 5%</span>
+                    </span>
+                    <div class="theme-toggle active" id="huajiaFeeToggle" title="画加手续费开关">
+                        <span class="toggle-knob"></span>
+                    </div>
+                </div>
                 <div class="color-picker-group">
                     <div class="color-picker-label">
                         <i class="fas fa-palette"></i> 配色方案 <span style="font-size:12px;font-weight:400;color:var(--text-muted);">(夜间模式关闭时生效)</span>
@@ -5413,6 +5422,7 @@
         const COLOR_KEY = 'artflow_color_scheme';
         const URGENT_ALERT_SHOWN_KEY = 'artflow_urgent_alert_shown';
         const ACHIEVEMENT_KEY = 'artflow_achievement';
+        const HUAJIA_FEE_KEY = 'artflow_huajia_fee_enabled';
 
         // ---- 每日成就定义 ----
         const DAILY_ACHIEVEMENT_DEFS = [{
@@ -5837,26 +5847,56 @@
         // ============================================================
         function calculateAfterFee(price, source) {
             if (!price || price <= 0) return 0;
-            // 米画师和画加扣除5%手续费
-            if (source === '米画师' || source === '画加') {
-                const after = price * 0.95;
-                if (source === '米画师') {
-                    // 米画师四舍五入取整数
-                    return Math.round(after);
-                } else {
+            // 米画师始终扣除5%手续费（不可关闭）
+            if (source === '米画师') {
+                return Math.round(price * 0.95);
+            }
+            // 画加扣除5%手续费 — 受设置开关控制（默认开启）
+            if (source === '画加') {
+                const enabled = getHuajiaFeeEnabled();
+                if (enabled) {
                     // 画加保留两位小数
-                    return Math.round(after * 100) / 100;
+                    return Math.round(price * 0.95 * 100) / 100;
                 }
+                // 开关关闭：不扣手续费
+                return price;
             }
             // 其他来源不扣手续费
             return price;
         }
 
         function getFeeRate(source) {
-            if (source === '米画师' || source === '画加') {
-                return 0.05;
-            }
+            if (source === '米画师') return 0.05;
+            if (source === '画加') return getHuajiaFeeEnabled() ? 0.05 : 0;
             return 0;
+        }
+
+        // ---- 画加手续费开关（设置面板） ----
+        function getHuajiaFeeEnabled() {
+            const v = localStorage.getItem(HUAJIA_FEE_KEY);
+            // 默认开启（保持原行为）
+            return v === null ? true : v === 'true';
+        }
+
+        function setHuajiaFeeEnabled(enabled) {
+            localStorage.setItem(HUAJIA_FEE_KEY, enabled ? 'true' : 'false');
+            const toggle = document.getElementById('huajiaFeeToggle');
+            if (toggle) toggle.classList.toggle('active', enabled);
+            // 实时刷新视图（如果有的话）
+            try {
+                if (typeof renderProjects === 'function') renderProjects();
+                if (typeof renderIncome === 'function') renderIncome();
+                if (typeof updateStatistics === 'function') updateStatistics();
+                // 详情模态框中的费用提示也要更新（如果打开中）
+                const priceInput = document.getElementById('modalPriceInput');
+                if (priceInput && document.getElementById('modalOverlay')?.classList.contains('active')) {
+                    priceInput.dispatchEvent(new Event('input', { bubbles: true }));
+                }
+                const createPriceInput = document.getElementById('createPrice');
+                if (createPriceInput && document.getElementById('createModalOverlay')?.classList.contains('active')) {
+                    createPriceInput.dispatchEvent(new Event('input', { bubbles: true }));
+                }
+            } catch (e) { console.warn('刷新画加费用视图失败:', e); }
         }
 
         function getFeeDisplay(source) {
@@ -9451,6 +9491,17 @@
 
             document.getElementById('themeToggle').addEventListener('click', toggleTheme);
             document.getElementById('rainbowToggle').addEventListener('click', toggleRainbowName);
+            // 画加手续费开关
+            const huajiaFeeToggle = document.getElementById('huajiaFeeToggle');
+            if (huajiaFeeToggle) {
+                // 初始化 UI 状态
+                huajiaFeeToggle.classList.toggle('active', getHuajiaFeeEnabled());
+                huajiaFeeToggle.addEventListener('click', () => {
+                    const next = !getHuajiaFeeEnabled();
+                    setHuajiaFeeEnabled(next);
+                    showToast(next ? '✅ 画加手续费已开启（自动扣 5%）' : '⛔ 画加手续费已关闭（不再自动扣除）');
+                });
+            }
 
             document.querySelectorAll('.color-option').forEach(option => {
                 option.addEventListener('click', function() {
