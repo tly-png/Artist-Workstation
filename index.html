@@ -5769,7 +5769,7 @@
                 tags: ['美食', '手绘'],
                 achievementCounted: true,
                 completedAt: '2026-07-10T08:00:00.000Z'
-            }];
+            }].map(p => ({ ...p, isSeedData: true }));
         }
 
         function loadAppData() {
@@ -5916,6 +5916,7 @@
                 countedProjects: [],
                 rainbowUnlocked: false,
                 rainbowEnabled: false,
+                achievementTrackingEnabled: false,  // 用户第一次新建稿件后才开启
                 daily: {},
                 dailyCompletion: {},
                 currentStreak: 0,
@@ -6139,6 +6140,8 @@
             const monthlyIncome = {};
 
             projects.forEach(p => {
+                // 成就系统未开启 或 种子数据 → 跳过
+                if (!achievementData.achievementTrackingEnabled || p.isSeedData) return;
                 totalProjects++;
                 // 使用扣除手续费后的价格进行统计
                 const afterFeePrice = calculateAfterFee(p.price, p.source);
@@ -6181,6 +6184,8 @@
             const yearKey = currentYear;
             let annualCount = 0;
             projects.forEach(p => {
+                // 成就系统未开启 或 种子数据 → 跳过
+                if (!achievementData.achievementTrackingEnabled || p.isSeedData) return;
                 if (p.dueDate) {
                     const d = new Date(p.dueDate);
                     if (d.getFullYear() === currentYear) {
@@ -6195,8 +6200,8 @@
                 const last = new Date(stats.lastCompletedDate);
                 const diff = now - last;
                 stats.consecutiveZeroDays = Math.floor(diff / (1000 * 60 * 60 * 24));
-            } else if (projects.some(p => p.progress >= 100)) {
-                const completedWithDate = projects.filter(p => p.progress >= 100 && p.completedAt);
+            } else if (projects.some(p => p.progress >= 100 && !p.isSeedData)) {
+                const completedWithDate = projects.filter(p => p.progress >= 100 && p.completedAt && !p.isSeedData);
                 if (completedWithDate.length > 0) {
                     const latest = completedWithDate.reduce((max, p) => {
                         const d = new Date(p.completedAt);
@@ -6206,7 +6211,7 @@
                     const diff = now - latest;
                     stats.consecutiveZeroDays = Math.floor(diff / (1000 * 60 * 60 * 24));
                 } else {
-                    const completed = projects.filter(p => p.progress >= 100);
+                    const completed = projects.filter(p => p.progress >= 100 && !p.isSeedData);
                     if (completed.length > 0) {
                         const latest = completed.reduce((max, p) => {
                             const d = p.dueDate ? new Date(p.dueDate + 'T23:59:59') : new Date(0);
@@ -6221,7 +6226,7 @@
                 stats.consecutiveZeroDays = 0;
             }
 
-            const completedWithDate = projects.filter(p => p.progress >= 100 && p.completedAt);
+            const completedWithDate = projects.filter(p => p.progress >= 100 && p.completedAt && !p.isSeedData);
             if (completedWithDate.length > 0) {
                 const latest = completedWithDate.reduce((max, p) => {
                     const d = new Date(p.completedAt);
@@ -6296,7 +6301,7 @@
                 newUnlock = true;
             }
 
-            const inProgress = projects.filter(p => p.progress < 100 && p.progress > 0).length;
+            const inProgress = projects.filter(p => p.progress < 100 && p.progress > 0 && !p.isSeedData).length;
             if (inProgress >= 5 && !unlocked.includes('qty_sea_king')) {
                 unlockGenericAchievement('qty_sea_king', QUANTITY_ACHIEVEMENT_DEFS);
                 newUnlock = true;
@@ -6979,7 +6984,7 @@
 
             achievementData = loadAchievementData();
 
-            const completedIds = projects.filter(p => p.progress >= 100).map(p => p.id);
+            const completedIds = projects.filter(p => p.progress >= 100 && !p.isSeedData).map(p => p.id);
             const countedSet = new Set(achievementData.countedProjects);
             let newCompleted = 0;
             completedIds.forEach(id => {
@@ -6996,6 +7001,7 @@
             }
 
             projects.forEach(p => {
+                if (p.isSeedData) return;  // 种子数据不修正 createdAt/completedAt
                 if (p.progress >= 100 && !p.achievementCounted) {
                     p.achievementCounted = true;
                 }
@@ -7619,7 +7625,8 @@
                 let urgencyHTML = '';
                 if (!isCompleted && p.dueDate) {
                     const days = getDaysRemaining(p.dueDate);
-                    if (days <= 0) {
+                    if (days < 0) {
+                        // 严格截稿日期结束后才显示"过期"（截稿当天 0 天归入"⚠️急"分支）
                         urgencyHTML =
                         `<div class="urgency-badge urgent-overdue"><i class="fas fa-exclamation-triangle"></i> 过期</div>`;
                     } else if (days <= 7) {
@@ -9095,6 +9102,17 @@
             renderCalendar();
             saveAppData();
             closeCreateModal();
+
+            // 第一次新建稿件 → 开启成就系统
+            if (!achievementData.achievementTrackingEnabled) {
+                achievementData.achievementTrackingEnabled = true;
+                saveAchievementData();
+                showToast('🎉 成就系统已开启！从此刻起记录你的创作成就', true);
+                setTimeout(() => {
+                    showToast('🏆 查看成就：点击侧边栏"成就"图标');
+                }, 3500);
+            }
+
             showToast(`🎉 已创建稿件「${title}」`);
             setTimeout(() => openModal(newProject.id), 300);
             checkAndShowUrgentAlert();
