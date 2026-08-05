@@ -722,11 +722,28 @@
             transition: var(--transition);
             box-shadow: 0 4px 12px rgba(var(--shadow-color), 0.25);
             flex-shrink: 0;
+            white-space: nowrap;
         }
         .welcome-banner .action-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 20px rgba(var(--shadow-color), 0.35);
             background: var(--primary-dark);
+        }
+        .welcome-banner .action-btn.secondary {
+            background: var(--card-bg);
+            color: var(--primary);
+            border: 1.5px solid var(--primary-light);
+            box-shadow: 0 2px 6px rgba(var(--shadow-color), 0.10);
+        }
+        .welcome-banner .action-btn.secondary:hover {
+            background: var(--primary);
+            color: #fff;
+            border-color: var(--primary);
+        }
+        .welcome-banner .action-btns {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
         }
 
         /* ===== 统计卡片 ===== */
@@ -811,6 +828,62 @@
             height: 18px;
             background: var(--border-light);
             margin: 0 4px;
+        }
+        /* 排序条 — 视觉与筛选条完全一致（独立一行） */
+        .sort-bar {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            padding: 12px 16px;
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            border: 1px solid var(--border-light);
+        }
+        .sort-bar .filter-label {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-muted);
+            margin-right: 4px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .sort-bar .filter-label i {
+            color: var(--primary-light);
+        }
+        /* sort-tag 与 filter-tag 保持完全一致的视觉 */
+        .sort-bar .filter-tag.sort-tag {
+            padding: 6px 14px;
+            border-radius: 18px;
+            font-size: 13px;
+            font-weight: 500;
+            border: 1px solid transparent;
+            cursor: pointer;
+            transition: var(--transition);
+            background: rgba(var(--shadow-color), 0.05);
+            color: var(--text-light);
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .sort-bar .filter-tag.sort-tag i {
+            font-size: 11px;
+        }
+        .sort-bar .filter-tag.sort-tag:hover {
+            background: rgba(var(--shadow-color), 0.10);
+            color: var(--text);
+        }
+        .sort-bar .filter-tag.sort-tag.active {
+            background: var(--primary);
+            color: #fff;
+            border-color: var(--primary);
+            box-shadow: 0 2px 8px rgba(var(--shadow-color), 0.25);
+        }
+        .sort-bar .filter-tag.sort-tag.active .fa-arrow-up,
+        .sort-bar .filter-tag.sort-tag.active .fa-arrow-down {
+            color: #fff;
         }
         .filter-bar .filter-tag {
             padding: 6px 14px;
@@ -2206,6 +2279,68 @@
             color: var(--primary);
         }
         .date-picker-selected-date.empty { color: var(--text-muted); font-weight: 400; }
+        .date-picker-time {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 12px;
+            padding: 12px 14px;
+            background: rgba(var(--shadow-color), 0.05);
+            border-radius: 10px;
+            border: 1px solid var(--border-light);
+        }
+        .date-picker-time-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-muted);
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-shrink: 0;
+        }
+        .date-picker-time-label i {
+            color: var(--primary);
+        }
+        .date-picker-time .time-pickers {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .date-picker-time select {
+            padding: 6px 8px;
+            border: 1.5px solid var(--input-border);
+            border-radius: 8px;
+            background: var(--card-bg);
+            color: var(--text);
+            font-size: 14px;
+            font-weight: 600;
+            font-family: inherit;
+            cursor: pointer;
+            transition: var(--transition);
+            outline: none;
+            min-width: 56px;
+            text-align: center;
+        }
+        .date-picker-time select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(var(--shadow-color), 0.12);
+        }
+        .date-picker-time select:hover {
+            border-color: var(--primary-light);
+        }
+        .date-picker-time .time-sep {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text);
+            padding: 0 2px;
+        }
+        .date-picker-time .time-hint {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-left: auto;
+        }
         .date-picker-cal {
             border: 1px solid var(--border-light);
             border-radius: 12px;
@@ -3722,6 +3857,52 @@
             border-radius: 4px;
             transition: width 0.6s;
         }
+        /* 本月预计收入卡片 — 特殊样式 */
+        .income-card.expected {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.08), rgba(245, 158, 11, 0.02));
+            border-top: 4px solid #F59E0B;
+            position: relative;
+            overflow: hidden;
+        }
+        .income-card.expected::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 8px,
+                rgba(245, 158, 11, 0.04) 8px,
+                rgba(245, 158, 11, 0.04) 16px
+            );
+            pointer-events: none;
+        }
+        .income-card.expected .expected-tag {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            color: #fff;
+            background: linear-gradient(135deg, #F59E0B, #D97706);
+            padding: 3px 12px;
+            border-radius: 12px;
+            letter-spacing: 0.5px;
+            box-shadow: 0 2px 6px rgba(245, 158, 11, 0.30);
+            z-index: 1;
+        }
+        .income-card.expected .income-amount {
+            color: #D97706;
+        }
+        .income-card.expected .month-label {
+            padding-right: 60px;
+        }
+        .income-card.expected .income-change {
+            color: var(--text-muted);
+        }
         .income-empty {
             grid-column: 1 / -1;
             text-align: center;
@@ -4077,6 +4258,10 @@
         @media (max-width: 992px) {
             :root {
                 --sidebar-width: 72px;
+            }
+            .sidebar {
+                /* 移动端 padding-top 加 36px，避开浏览器系统返回按钮 / 手势区域 */
+                padding: 64px 18px 24px;
             }
             .sidebar-brand {
                 display: none;
@@ -4554,9 +4739,14 @@
                 <h1>👋 你好，<span class="highlight" id="greetingName">林语画</span><span class="name-badges" id="greetingBadges"></span></h1>
                 <p><i class="fas fa-paint-brush"></i> 今天有 <strong id="today-count">0</strong> 个稿件需要关注</p>
             </div>
-            <button class="action-btn" id="addProjectBtn">
-                <i class="fas fa-plus-circle"></i> 新建稿件
-            </button>
+            <div class="action-btns">
+                <button class="action-btn secondary" id="clipboardImportBtn" title="复制米画师/画加/Excel 订单文本，然后点这里导入">
+                    <i class="fas fa-paste"></i> 剪贴板导入
+                </button>
+                <button class="action-btn" id="addProjectBtn">
+                    <i class="fas fa-plus-circle"></i> 新建稿件
+                </button>
+            </div>
         </div>
 
         <!-- 统计卡片 -->
@@ -4587,6 +4777,21 @@
                 <span class="filter-divider"></span>
                 <!-- 状态筛选标签由 JS 动态注入 -->
                 <span id="filterStatusTags"></span>
+            </div>
+            <div class="sort-bar" id="sortBar">
+                <span class="filter-label"><i class="fas fa-sort"></i> 排序</span>
+                <button class="filter-tag sort-tag active" data-sort="due-asc" title="截稿日期升序">
+                    <i class="fas fa-calendar-alt"></i> 截稿 <i class="fas fa-arrow-up"></i>
+                </button>
+                <button class="filter-tag sort-tag" data-sort="due-desc" title="截稿日期降序">
+                    <i class="fas fa-calendar-alt"></i> 截稿 <i class="fas fa-arrow-down"></i>
+                </button>
+                <button class="filter-tag sort-tag" data-sort="price-desc" title="稿酬从高到低">
+                    <i class="fas fa-coins"></i> 稿酬 <i class="fas fa-arrow-down"></i>
+                </button>
+                <button class="filter-tag sort-tag" data-sort="progress-desc" title="完成度从高到低">
+                    <i class="fas fa-chart-line"></i> 进度 <i class="fas fa-arrow-down"></i>
+                </button>
             </div>
             <div class="projects-grid" id="projectsGrid"></div>
         </div>
@@ -4814,6 +5019,40 @@
         </div>
     </div>
 
+    <!-- ===== 剪贴板导入模态框 ===== -->
+    <div class="modal-overlay" id="clipboardImportOverlay">
+        <div class="modal" id="clipboardImportModal" style="max-width:680px;">
+            <div class="modal-header">
+                <div class="modal-title-group">
+                    <div class="modal-title"><i class="fas fa-paste" style="color:var(--primary);"></i> 从剪贴板导入订单</div>
+                    <div class="modal-sub">复制米画师 / 画加 / Excel 订单文本 → 点"读取剪贴板" → 确认导入</div>
+                </div>
+                <button class="modal-close" id="clipboardImportClose" aria-label="关闭"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body" style="padding:18px 24px;">
+                <div style="margin-bottom:12px;">
+                    <button class="btn-secondary" id="clipboardReadBtn" style="width:100%;padding:10px;font-weight:600;">
+                        <i class="fas fa-clipboard"></i> 读取剪贴板内容
+                    </button>
+                    <div style="font-size:11px;color:var(--text-muted);margin-top:6px;text-align:center;">
+                        也可直接在下方粘贴（Ctrl+V）
+                    </div>
+                </div>
+                <textarea id="clipboardRawInput" placeholder="或在此粘贴订单文本（每行一条，支持 CSV / TSV / 纯文本）"
+                          style="width:100%;min-height:120px;padding:10px;border:1px solid var(--border-light);border-radius:8px;font-family:monospace;font-size:12px;resize:vertical;outline:none;box-sizing:border-box;"
+                ></textarea>
+                <div id="clipboardParseStatus" style="margin-top:10px;font-size:12px;color:var(--text-muted);"></div>
+                <div id="clipboardPreviewList" style="margin-top:12px;"></div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" id="clipboardImportCancel">取消</button>
+                <button class="btn-primary" id="clipboardImportConfirm" disabled>
+                    <i class="fas fa-check"></i> 确认导入
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- ===== 新建稿件模态框 ===== -->
     <div class="modal-overlay" id="createModalOverlay">
         <div class="modal" id="createModal">
@@ -4983,6 +5222,15 @@
                     <span class="date-picker-selected-label">已选择</span>
                     <span class="date-picker-selected-date" id="datePickerSelectedDate">— 未选择 —</span>
                 </div>
+                <div class="date-picker-time" id="datePickerTimeRow">
+                    <span class="date-picker-time-label"><i class="far fa-clock"></i> 截稿时间</span>
+                    <div class="time-pickers">
+                        <select id="dpHour" aria-label="小时"></select>
+                        <span class="time-sep">:</span>
+                        <select id="dpMinute" aria-label="分钟"></select>
+                    </div>
+                    <span class="time-hint" id="dpTimeHint">默认 23:59（当天结束）</span>
+                </div>
                 <div class="date-picker-cal">
                     <div class="date-picker-cal-header">
                         <button type="button" class="cal-nav" id="datePickerPrev" title="上个月"><i class="fas fa-chevron-left"></i></button>
@@ -4999,9 +5247,8 @@
                     <div class="date-picker-quick-btns">
                         <button type="button" data-quick="today">今天</button>
                         <button type="button" data-quick="tomorrow">明天</button>
-                        <button type="button" data-quick="3">3 天后</button>
                         <button type="button" data-quick="7">一周后</button>
-                        <button type="button" data-quick="14">两周后</button>
+                        <button type="button" data-quick="monthEnd">本月底</button>
                         <button type="button" data-quick="30">一个月后</button>
                     </div>
                 </div>
@@ -5833,6 +6080,7 @@
                     projects: projects,
                     artistName: artistName,
                     currentFilter: currentFilter,
+                    currentSort: currentSort,
                     statusNodes: statusNodes,
                     savedAt: new Date().toISOString()
                 };
@@ -5841,6 +6089,103 @@
                 console.warn('保存数据失败:', e);
             }
         }
+
+        /* ============================================================
+         * 米画师扩展同步接收（localStorage 桥接）
+         * - 监听 key='mhs_sync_data' 的 storage 事件
+         * - 由米画师同步扩展 content.js 写入
+         * ============================================================ */
+        function importMihuashiOrders(orders) {
+            if (!Array.isArray(orders) || orders.length === 0) {
+                return { imported: 0, skipped: 0 };
+            }
+
+            let imported = 0;
+            let skipped = 0;
+            const now = new Date().toISOString();
+
+            orders.forEach(order => {
+                if (!order || !order.title || !order.price || order.price <= 0) {
+                    skipped++;
+                    return;
+                }
+
+                // 去重：按订单号或 (标题 + 来源) 双重判断
+                const existing = projects.find(p =>
+                    (order.id && p.mihuashiOrderId === order.id) ||
+                    (p.source === '米画师' && p.title === order.title)
+                );
+                if (existing) {
+                    skipped++;
+                    return;
+                }
+
+                // 🔧 关键：id 必须用数字（与 generateId() 一致），否则详情/打卡/删除按钮失效
+                const newId = Date.now() + Math.random() * 10000;
+
+                projects.push({
+                    id: newId,
+                    title: order.title,
+                    source: '米画师',
+                    price: order.price,
+                    dueDate: order.dueDate || now.slice(0, 10),
+                    progress: order.status === 'delivered' ? 100 : 50,
+                    status: order.status === 'delivered' ? 'delivered' : 'completed',
+                    completedAt: now,
+                    createdAt: now,
+                    description: order.rawText ? `从米画师同步：\n${order.rawText}` : '从米画师同步',
+                    mihuashiOrderId: order.id || null,
+                    emoji: '🎨',
+                    tags: ['米画师同步'],
+                    checkedMilestones: [],
+                    platformFeeRate: 0.05,
+                    achievementCounted: false,
+                    isSeedData: false
+                });
+                imported++;
+            });
+
+            if (imported > 0) {
+                saveAppData();
+                renderProjects();
+                renderIncome();
+                updateStatistics();
+            }
+
+            return { imported, skipped };
+        }
+
+        // 监听扩展推送的订单数据
+        window.addEventListener('storage', (e) => {
+            if (e.key !== 'mhs_sync_data' || !e.newValue) return;
+            try {
+                const payload = JSON.parse(e.newValue);
+                if (!payload || payload.source !== 'mihuashi-extension') return;
+
+                const result = importMihuashiOrders(payload.orders || []);
+                const total = (payload.orders || []).length;
+
+                if (result.imported > 0) {
+                    showToast(
+                        `✅ 已从米画师同步 ${result.imported} 个订单` +
+                        (result.skipped > 0 ? `（跳过 ${result.skipped} 个重复）` : ''),
+                        true
+                    );
+                } else if (result.skipped > 0) {
+                    showToast(`⚠️ 所有 ${total} 个订单都已存在，未新增`);
+                }
+
+                // 把结果回写到 localStorage，让扩展的 content.js 也能收到
+                try {
+                    localStorage.setItem('mhs_sync_result', JSON.stringify({
+                        ...result,
+                        timestamp: Date.now()
+                    }));
+                } catch {}
+            } catch (err) {
+                console.warn('[米画师同步] 数据解析失败:', err);
+            }
+        });
 
         // ============================================================
         //  手续费计算工具函数 (新增)
@@ -6063,17 +6408,31 @@
         function getDaysRemaining(dateStr) {
             if (!dateStr) return Infinity;
             // 按"自然日"计算剩余天数：今天 0 天 / 明天 1 天 / 3 天后 3 天 / 逾期返回负数
+            // 兼容 dueDate 带时分（YYYY-MM-DDTHH:mm）；不带时分时按 T00:00:00 解析
             const today = new Date();
             today.setHours(0, 0, 0, 0);
-            const due = new Date(dateStr + 'T00:00:00');
+            const due = dateStr.includes('T')
+                ? new Date(dateStr)
+                : new Date(dateStr + 'T00:00:00');
             return Math.round((due - today) / (1000 * 60 * 60 * 24));
         }
 
         function isOverdue(dateStr) {
             if (!dateStr) return false;
             const now = new Date();
-            const due = new Date(dateStr + 'T23:59:59');
+            // 兼容 YYYY-MM-DD 与 YYYY-MM-DDTHH:mm；不带时分时按 T23:59:59 视为当天结束
+            const due = dateStr.includes('T')
+                ? new Date(dateStr)
+                : new Date(dateStr + 'T23:59:59');
             return due < now;
+        }
+
+        // 解析截稿日期为"当天结束"Date（兼容 YYYY-MM-DD 与 YYYY-MM-DDTHH:mm）
+        function parseDueDateEnd(dateStr) {
+            if (!dateStr) return null;
+            return dateStr.includes('T')
+                ? new Date(dateStr)
+                : new Date(dateStr + 'T23:59:59');
         }
 
         function getMonthKey(year, month) {
@@ -6214,7 +6573,7 @@
                     const completed = projects.filter(p => p.progress >= 100 && !p.isSeedData);
                     if (completed.length > 0) {
                         const latest = completed.reduce((max, p) => {
-                            const d = p.dueDate ? new Date(p.dueDate + 'T23:59:59') : new Date(0);
+                            const d = p.dueDate ? parseDueDateEnd(p.dueDate) : new Date(0);
                             return d > max ? d : max;
                         }, new Date(0));
                         stats.lastCompletedDate = latest.toISOString();
@@ -6846,7 +7205,7 @@
             const stalledCount = projects.filter(p => {
                 if (p.progress >= 100) return false;
                 if (!p.dueDate) return false;
-                const due = new Date(p.dueDate + 'T23:59:59');
+                const due = parseDueDateEnd(p.dueDate);
                 const diff = today - due;
                 return diff > 90 * 24 * 60 * 60 * 1000;
             }).length;
@@ -6862,7 +7221,7 @@
             if (completedProjectId) {
                 const project = projects.find(p => p.id === completedProjectId);
                 if (project && project.progress >= 100 && project.dueDate) {
-                    const due = new Date(project.dueDate + 'T23:59:59');
+                    const due = parseDueDateEnd(project.dueDate);
                     const diff = today - due;
                     if (diff > 365 * 24 * 60 * 60 * 1000 && !achievementData.forgottenProjects.includes(project.id)) {
                         achievementData.forgottenProjects.push(project.id);
@@ -6967,6 +7326,7 @@
         let projects = [];
         let artistName = '林语画';
         let currentFilter = 'all';
+        let currentSort = 'due-asc';  // 默认：截稿日期升序
         let achievementData = getDefaultAchievementData();
 
         function initData() {
@@ -6975,11 +7335,29 @@
                 projects = saved.projects;
                 artistName = saved.artistName || '林语画';
                 currentFilter = saved.currentFilter || 'all';
+                currentSort = saved.currentSort || 'due-asc';
             } else {
                 projects = getDefaultProjects();
                 artistName = '林语画';
                 currentFilter = 'all';
+                currentSort = 'due-asc';
                 saveAppData();
+            }
+
+            // 🔧 修复历史数据：把字符串 id（'proj_xxx_xxx'）转换为数字 id
+            // 原因：详情/打卡/删除按钮用 Number() 匹配，字符串 id 会全部失效
+            let needFixId = false;
+            projects.forEach(p => {
+                if (typeof p.id !== 'number') {
+                    // 用 mihuashiOrderId 或现有数值散列作为种子，保证稳定性
+                    const seed = p.mihuashiOrderId || p.title || String(p.id);
+                    p.id = parseStableNumberId(seed);
+                    needFixId = true;
+                }
+            });
+            if (needFixId) {
+                saveAppData();
+                console.log('[画师工作台] 已修复字符串 id 订单');
             }
 
             achievementData = loadAchievementData();
@@ -7198,14 +7576,401 @@
 
         function generateId() { return Date.now() + Math.random() * 1000; }
 
-        function sortProjects(list) {
+        // 从字符串种子生成稳定的数字 id（同一个种子每次得到相同的数字）
+        function parseStableNumberId(seed) {
+            if (!seed) return Date.now() + Math.random() * 10000;
+            if (typeof seed === 'number') return seed;
+            let hash = 0;
+            const s = String(seed);
+            for (let i = 0; i < s.length; i++) {
+                hash = ((hash << 5) - hash) + s.charCodeAt(i);
+                hash |= 0;
+            }
+            return Math.abs(hash) + 10000000000;
+        }
+
+        /* ============================================================
+         * 剪贴板导入：解析 + 预览 + 批量导入
+         * ============================================================ */
+        let clipboardParsedOrders = [];
+
+        function parseClipboardText(text) {
+            text = (text || '').trim();
+            if (!text) return [];
+
+            // JSON
+            if (text.startsWith('[') || text.startsWith('{')) {
+                try {
+                    const data = JSON.parse(text);
+                    const arr = Array.isArray(data) ? data : [data];
+                    return arr.map(o => {
+                        const title = o.title || o['标题'] || o['稿件'] || o['name'] || '';
+                        const priceRaw = o.price || o['价格'] || o['稿酬'] || o['金额'] || 0;
+                        const price = parseFloat(String(priceRaw).replace(/[^\d.]/g, '')) || 0;
+                        const dateRaw = o.dueDate || o['日期'] || o['截稿日期'] || o['截止日期'] || o['date'] || '';
+                        return {
+                            title: String(title).trim(),
+                            price,
+                            dueDate: normalizeDateString(dateRaw),
+                            status: /已交付|已完成|completed|delivered/i.test(String(o.status || '')) ? 'delivered' : 'completed'
+                        };
+                    }).filter(o => o.title && o.price > 0);
+                } catch (e) {}
+            }
+
+            const lines = text.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
+            if (lines.length === 0) return [];
+
+            // CSV / TSV
+            const firstLine = lines[0];
+            const hasTab = firstLine.includes('\t');
+            const hasComma = firstLine.includes(',');
+            const headerKeywords = /标题|价格|稿酬|金额|日期|截稿|截止|状态|订单|name|title|price|date|status|amount/i;
+            if ((hasTab || hasComma) && headerKeywords.test(firstLine)) {
+                const sep = hasTab ? '\t' : ',';
+                const header = lines[0].split(sep).map(c => c.trim());
+                const orders = [];
+                for (let i = 1; i < lines.length; i++) {
+                    const cols = parseCSVLine(lines[i], sep);
+                    const row = {};
+                    header.forEach((h, idx) => { row[h] = (cols[idx] || '').trim(); });
+                    const priceText = String(row['价格'] || row['稿酬'] || row['金额'] || row['price'] || row['amount'] || row['Price'] || '');
+                    const priceMatch = priceText.match(/(\d+(?:\.\d+)?)/);
+                    if (!priceMatch) continue;
+                    const title = String(row['标题'] || row['稿件'] || row['订单'] || row['name'] || row['title'] || row['Title'] || '').trim();
+                    if (!title) continue;
+                    const dateRaw = row['日期'] || row['截稿日期'] || row['截止日期'] || row['dueDate'] || row['date'] || row['Date'] || '';
+                    const statusText = String(row['状态'] || row['status'] || '');
+                    orders.push({
+                        title,
+                        price: parseFloat(priceMatch[1]),
+                        dueDate: normalizeDateString(dateRaw),
+                        status: /已交付|已完成|completed|delivered/i.test(statusText) ? 'delivered' : 'completed'
+                    });
+                }
+                return orders;
+            }
+
+            return parsePlainTextOrders(lines);
+        }
+
+        function parseCSVLine(line, sep) {
+            const result = [];
+            let cur = '', inQuote = false;
+            for (let i = 0; i < line.length; i++) {
+                const c = line[i];
+                if (c === '"') { inQuote = !inQuote; continue; }
+                if (c === sep && !inQuote) { result.push(cur); cur = ''; continue; }
+                cur += c;
+            }
+            result.push(cur);
+            return result;
+        }
+
+        function normalizeDateString(s) {
+            if (!s) return null;
+            const str = String(s).trim();
+            if (!str) return null;
+            let m = str.match(/(\d{4})[-\/年](\d{1,2})[-\/月](\d{1,2})/);
+            if (m) return `${m[1]}-${pad2(m[2])}-${pad2(m[3])}`;
+            m = str.match(/(\d{1,2})[-\/月](\d{1,2})[日号]?/);
+            if (m) {
+                const year = new Date().getFullYear();
+                return `${year}-${pad2(m[1])}-${pad2(m[2])}`;
+            }
+            return null;
+        }
+
+        // 纯文本分段解析（米画师/画加典型格式）
+// 格式：标题 → [截稿日期] → 日期 → [订单金额] → 价格 → [订单进度] → 状态
+function parsePlainTextOrders(text) {
+            // 兼容签名：既支持字符串（text.split）也支持已 split 的数组
+            let lines;
+            if (Array.isArray(text)) {
+                lines = text;
+            } else {
+                lines = (text || '').split(/\r?\n/).map(l => l.trim()).filter(Boolean);
+            }
+            if (lines.length === 0) return [];
+
+            const orders = [];
+            let current = null;
+            const flush = () => {
+                if (current && current.title && current.price > 0) {
+                    orders.push(current);
+                }
+                current = null;
+            };
+
+            // 标签正则（识别后跳过，等下一行的值；同行的值仍会继续提取）
+            // 覆盖：米画师/画加/淘宝/微博/微信等平台常见订单字段标签
+            const labelRegex = /^(截稿[日期时间倒计时]*|交付[日期时间]*|截止[日期时间]*|完成[日期时间]*|起稿[日期时间]*|实收款?|实付|实际[收款付金额]+|订单金额|订单价格|订单稿酬|订单进度|订单状态|总价|稿酬|价格|金额|状态|进度|倒计时)/;
+            // 价格正则
+            const priceRegex = /(\d+(?:\.\d+)?)\s*元|[¥￥]\s*(\d+(?:\.\d+)?)/;
+            // 纯日期正则
+            const dateOnlyRegex = /^(\d{4})[-\/年](\d{1,2})[-\/月](\d{1,2})/;
+            // 状态正则（"草稿 40%"、"进行中 50%"、"已交付" 等）
+            const statusRegex = /(草稿|进行中|已交付|已完成|已支付|已中断|暂停|拒绝|起稿中|待画师接单|待买家确认|待修改)\s*(\d+)?\s*%?/i;
+
+            for (const line of lines) {
+                // 1. 标签行 → 跳过标签部分，但仍尝试在该行提取价格/日期
+                //    支持 "实收款：￥55" / "截稿时间：2026-08-06" / "订单金额：199 元" 这类同行形式
+                if (labelRegex.test(line)) {
+                    // 把标签前缀切掉再匹配日期/价格，避免"截稿时间："前缀影响正则
+                    const stripped = line.replace(labelRegex, '').replace(/^[：:\s]+/, '');
+                    const pm = stripped.match(priceRegex);
+                    if (pm && (!current || current.price === 0)) {
+                        if (!current) current = { title: '', price: 0, dueDate: null, status: 'draft', progress: 0 };
+                        current.price = parseFloat(pm[1] || pm[2]);
+                    }
+                    const dm = stripped.match(dateOnlyRegex);
+                    if (dm && (!current || !current.dueDate)) {
+                        if (!current) current = { title: '', price: 0, dueDate: null, status: 'draft', progress: 0 };
+                        current.dueDate = `${dm[1]}-${pad2(dm[2])}-${pad2(dm[3])}`;
+                    }
+                    continue;
+                }
+
+                // 2. 价格行
+                const pm = line.match(priceRegex);
+                if (pm) {
+                    if (!current) current = { title: '', price: 0, dueDate: null, status: 'draft', progress: 0 };
+                    current.price = parseFloat(pm[1] || pm[2]);
+                    continue;
+                }
+
+                // 3. 纯日期行
+                const dm = line.match(dateOnlyRegex);
+                if (dm) {
+                    if (!current) current = { title: '', price: 0, dueDate: null, status: 'draft', progress: 0 };
+                    current.dueDate = `${dm[1]}-${pad2(dm[2])}-${pad2(dm[3])}`;
+                    continue;
+                }
+
+                // 4. 状态行
+                const sm = line.match(statusRegex);
+                if (sm) {
+                    if (!current) current = { title: '', price: 0, dueDate: null, status: 'draft', progress: 0 };
+                    const state = sm[1];
+                    const pct = sm[2] ? parseInt(sm[2]) : null;
+                    if (/草稿|起稿中|待画师接单/i.test(state)) {
+                        current.status = 'draft';
+                        current.progress = pct || 40;
+                    } else if (/进行中|待买家确认|待修改/i.test(state)) {
+                        current.status = 'in_progress';
+                        current.progress = pct || 50;
+                    } else if (/已交付|已完成|delivered|completed/i.test(state)) {
+                        current.status = 'delivered';
+                        current.progress = pct || 100;
+                    } else if (/已支付|paid/i.test(state)) {
+                        current.status = 'in_progress';
+                        current.progress = pct || 80;
+                    } else if (/已中断|暂停|拒绝/i.test(state)) {
+                        current.status = 'paused';
+                        current.progress = pct || 0;
+                    }
+                    continue;
+                }
+
+                // 5. 排除纯数字/百分比/单位词
+                if (/^[\d\s%]+$/.test(line)) continue;
+                // 跳过"16 小时 46 分钟"、"11 小时"等倒计时类文本
+                if (/^\d+\s*(小时|分钟|秒|天|个|张|幅|件|分|%|年|月|日|号)/.test(line)) continue;
+                // 跳过纯数字+单位组合（"46 分钟"、"60 秒"）
+                if (/^\d+\s*(小时|分钟|秒|天|个|张|幅|件|分)/.test(line)) continue;
+                if (/^[¥￥\d.,\-\s]+$/.test(line)) continue;
+
+                // 6. 标题候选
+                if (!current) {
+                    current = { title: line, price: 0, dueDate: null, status: 'draft', progress: 0 };
+                } else if (!current.title) {
+                    current.title = line;
+                } else {
+                    // 已有标题又遇到普通行 → flush 旧的 + 开始新订单
+                    flush();
+                    current = { title: line, price: 0, dueDate: null, status: 'draft', progress: 0 };
+                }
+            }
+
+            flush();
+            return orders;
+        }
+
+        function openClipboardImport() {
+            document.getElementById('clipboardImportOverlay').classList.add('active');
+            document.body.style.overflow = 'hidden';
+            setTimeout(() => { try { readClipboard(); } catch (e) {} }, 200);
+        }
+
+        function closeClipboardImport() {
+            document.getElementById('clipboardImportOverlay').classList.remove('active');
+            document.body.style.overflow = '';
+            document.getElementById('clipboardRawInput').value = '';
+            document.getElementById('clipboardPreviewList').innerHTML = '';
+            document.getElementById('clipboardParseStatus').innerHTML = '';
+            document.getElementById('clipboardImportConfirm').disabled = true;
+            clipboardParsedOrders = [];
+        }
+
+        async function readClipboard() {
+            const statusEl = document.getElementById('clipboardParseStatus');
+            const rawEl = document.getElementById('clipboardRawInput');
+            try {
+                let text = '';
+                if (navigator.clipboard && navigator.clipboard.readText) {
+                    text = await navigator.clipboard.readText();
+                } else {
+                    text = rawEl.value;
+                }
+                if (!text) {
+                    statusEl.innerHTML = '<span style="color:#F59E0B;">⚠️ 剪贴板为空，请先在米画师订单页 Ctrl+C 复制订单内容</span>';
+                    return;
+                }
+                rawEl.value = text;
+                parseAndPreview(text);
+            } catch (e) {
+                statusEl.innerHTML = '<span style="color:#EF4444;">❌ 读取剪贴板失败：' + e.message + '<br>请直接在下方文本框粘贴（Ctrl+V）</span>';
+            }
+        }
+
+        function parseAndPreview(text) {
+            const statusEl = document.getElementById('clipboardParseStatus');
+            const listEl = document.getElementById('clipboardPreviewList');
+            const orders = parseClipboardText(text);
+            clipboardParsedOrders = orders;
+
+            if (orders.length === 0) {
+                statusEl.innerHTML = '<span style="color:#EF4444;">❌ 未能识别到订单（找不到价格或标题）</span>';
+                listEl.innerHTML = '';
+                document.getElementById('clipboardImportConfirm').disabled = true;
+                return;
+            }
+
+            statusEl.innerHTML = `<span style="color:#10B981;">✅ 识别到 <strong>${orders.length}</strong> 个订单</span> <span style="color:var(--text-muted);font-size:11px;">（标题、日期可直接修改）</span>`;
+
+            listEl.innerHTML = orders.map((o, i) => `
+                <div style="background:var(--bg);padding:10px 12px;border-radius:8px;margin-bottom:6px;display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+                    <input type="text" data-idx="${i}" data-field="title" value="${escapeHtmlText(o.title)}"
+                           style="flex:1;min-width:160px;padding:6px 10px;border:1px solid var(--border-light);border-radius:6px;font-size:13px;font-weight:600;outline:none;" />
+                    <span style="color:#10B981;font-weight:600;font-size:13px;">¥${o.price}</span>
+                    <input type="date" data-idx="${i}" data-field="dueDate" value="${o.dueDate || ''}"
+                           style="padding:4px 8px;border:1px solid var(--border-light);border-radius:6px;font-size:12px;outline:none;" />
+                    <select data-idx="${i}" data-field="source"
+                            style="padding:4px 8px;border:1px solid var(--border-light);border-radius:6px;font-size:12px;background:#fff;outline:none;">
+                        <option value="米画师">米画师</option>
+                        <option value="画加">画加</option>
+                        <option value="微博">微博</option>
+                        <option value="微信">微信</option>
+                        <option value="QQ">QQ</option>
+                        <option value="淘宝">淘宝</option>
+                        <option value="其他">其他</option>
+                    </select>
+                </div>
+            `).join('');
+
+            document.getElementById('clipboardImportConfirm').disabled = false;
+        }
+
+        function escapeHtmlText(s) {
+            return String(s || '').replace(/[&<>"']/g, c => ({
+                '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+            }[c]));
+        }
+
+        function confirmClipboardImport() {
+            const listEl = document.getElementById('clipboardPreviewList');
+            const edited = clipboardParsedOrders.map((o, i) => ({
+                ...o,
+                title: listEl.querySelector(`input[data-idx="${i}"][data-field="title"]`)?.value.trim() || o.title,
+                dueDate: listEl.querySelector(`input[data-idx="${i}"][data-field="dueDate"]`)?.value || o.dueDate,
+                source: listEl.querySelector(`select[data-idx="${i}"][data-field="source"]`)?.value || '米画师'
+            })).filter(o => o.title && o.price > 0);
+
+            if (edited.length === 0) { showToast('⚠️ 没有有效订单可导入'); return; }
+
+            const now = new Date().toISOString();
+            let imported = 0, skipped = 0;
+            edited.forEach(order => {
+                const existing = projects.find(p =>
+                    (p.source === order.source && p.title === order.title) ||
+                    (order.id && p.mihuashiOrderId === order.id)
+                );
+                if (existing) { skipped++; return; }
+                projects.push({
+                    id: Date.now() + Math.random() * 10000,
+                    title: order.title,
+                    source: order.source,
+                    price: order.price,
+                    dueDate: order.dueDate || now.slice(0, 10),
+                    progress: typeof order.progress === 'number' ? order.progress : (order.status === 'delivered' ? 100 : 0),
+                    status: order.status === 'delivered' ? 'delivered' : (order.status === 'in_progress' ? 'in_progress' : 'draft'),
+                    completedAt: (order.status === 'delivered' || order.progress >= 100) ? now : null,
+                    createdAt: now,
+                    description: '从剪贴板导入',
+                    emoji: '🎨',
+                    tags: ['剪贴板导入'],
+                    checkedMilestones: [],
+                    platformFeeRate: (order.source === '米画师' || order.source === '画加') ? 0.05 : 0,
+                    achievementCounted: false,
+                    isSeedData: false
+                });
+                imported++;
+            });
+
+            saveAppData();
+            renderProjects();
+            renderIncome();
+            updateStatistics();
+            closeClipboardImport();
+            showToast(`✅ 已从剪贴板导入 ${imported} 个订单${skipped > 0 ? `（跳过 ${skipped} 个重复）` : ''}`, true);
+        }
+
+        document.getElementById('clipboardImportBtn').addEventListener('click', openClipboardImport);
+        document.getElementById('clipboardImportClose').addEventListener('click', closeClipboardImport);
+        document.getElementById('clipboardImportCancel').addEventListener('click', closeClipboardImport);
+        document.getElementById('clipboardReadBtn').addEventListener('click', readClipboard);
+        document.getElementById('clipboardImportConfirm').addEventListener('click', confirmClipboardImport);
+        document.getElementById('clipboardRawInput').addEventListener('input', (e) => {
+            if (e.target.value.trim()) parseAndPreview(e.target.value);
+        });
+
+function sortProjects(list) {
+            const sortKey = (typeof currentSort !== 'undefined') ? currentSort : 'due-asc';
             return [...list].sort((a, b) => {
-                const aDone = a.progress >= 100;
-                const bDone = b.progress >= 100;
-                if (aDone && !bDone) return 1;
-                if (!aDone && bDone) return -1;
-                const dateA = a.dueDate ? new Date(a.dueDate + 'T23:59:59') : new Date(8640000000000000);
-                const dateB = b.dueDate ? new Date(b.dueDate + 'T23:59:59') : new Date(8640000000000000);
+                // 1. 已完成稿件排到最后（除"按进度"排序外）
+                if (sortKey !== 'progress-desc') {
+                    const aDone = a.progress >= 100;
+                    const bDone = b.progress >= 100;
+                    if (aDone && !bDone) return 1;
+                    if (!aDone && bDone) return -1;
+                }
+                // 2. 按 sortKey 应用排序
+                if (sortKey === 'due-asc' || sortKey === 'due-desc') {
+                    const dateA = a.dueDate ? parseDueDateEnd(a.dueDate) : new Date(8640000000000000);
+                    const dateB = b.dueDate ? parseDueDateEnd(b.dueDate) : new Date(8640000000000000);
+                    return sortKey === 'due-asc' ? dateA - dateB : dateB - dateA;
+                }
+                if (sortKey === 'price-desc') {
+                    // 稿酬降序：按 afterFee 排序（无价的排到最后）
+                    const pa = calculateAfterFee(a.price, a.source);
+                    const pb = calculateAfterFee(b.price, b.source);
+                    if (pa !== pb) return pb - pa;
+                    // 同稿酬按截稿升序作 tiebreaker
+                    const dateA = a.dueDate ? parseDueDateEnd(a.dueDate) : new Date(8640000000000000);
+                    const dateB = b.dueDate ? parseDueDateEnd(b.dueDate) : new Date(8640000000000000);
+                    return dateA - dateB;
+                }
+                if (sortKey === 'progress-desc') {
+                    // 进度降序：按 progress 排序（高进度在前，0% 在最后）
+                    if (a.progress !== b.progress) return b.progress - a.progress;
+                    // 同进度按截稿升序作 tiebreaker
+                    const dateA = a.dueDate ? parseDueDateEnd(a.dueDate) : new Date(8640000000000000);
+                    const dateB = b.dueDate ? parseDueDateEnd(b.dueDate) : new Date(8640000000000000);
+                    return dateA - dateB;
+                }
+                // 兜底：截稿升序
+                const dateA = a.dueDate ? parseDueDateEnd(a.dueDate) : new Date(8640000000000000);
+                const dateB = b.dueDate ? parseDueDateEnd(b.dueDate) : new Date(8640000000000000);
                 return dateA - dateB;
             });
         }
@@ -8007,8 +8772,8 @@
             grid.innerHTML = keys.map(key => {
                 const data = monthMap[key];
                 const projs = monthProjects[key].sort((a, b) => {
-                    const da = new Date(a.dueDate + 'T23:59:59');
-                    const db = new Date(b.dueDate + 'T23:59:59');
+                    const da = parseDueDateEnd(a.dueDate);
+                    const db = parseDueDateEnd(b.dueDate);
                     return da - db;
                 });
                 const total = data.total;
@@ -8095,6 +8860,37 @@
                 monthMap[key].total += afterFee;
             });
 
+            // 计算本月预计收入（dueDate 落在本月 + 未完成 + 有价格）
+            const now = new Date();
+            const thisYear = now.getFullYear();
+            const thisMonth = now.getMonth();  // 0-based
+            const expectedProjects = projects.filter(p => {
+                if (!p.dueDate) return false;
+                if (p.progress >= 100) return false;
+                if (!p.price || p.price <= 0) return false;
+                const d = new Date(p.dueDate);
+                return d.getFullYear() === thisYear && d.getMonth() === thisMonth;
+            });
+            const expectedIncome = expectedProjects.reduce((sum, p) => {
+                return sum + calculateAfterFee(p.price, p.source);
+            }, 0);
+            const expectedCardHTML = expectedProjects.length > 0 ? `
+                <div class="income-card expected">
+                    <div class="expected-tag">预计</div>
+                    <div class="month-label">${thisYear}年${thisMonth + 1}月</div>
+                    <div class="income-amount">
+                        ¥${expectedIncome.toFixed(2)}
+                        <span class="currency">CNY</span>
+                    </div>
+                    <div class="income-change">
+                        📌 ${expectedProjects.length} 个未完成稿件
+                    </div>
+                    <div class="income-bar-mini">
+                        <div class="bar-fill" style="width:100%;"></div>
+                    </div>
+                </div>
+            ` : '';
+
             const keys = Object.keys(monthMap).sort();
             const totalIncome = keys.reduce((sum, k) => sum + monthMap[k].total, 0);
             document.getElementById('chartTotalIncome').textContent = '¥' + totalIncome.toFixed(2);
@@ -8157,7 +8953,7 @@
 
             const maxIncomeCard = Math.max(...monthData.map(d => d.total), 1);
 
-            grid.innerHTML = monthData.map((d, idx) => {
+            grid.innerHTML = expectedCardHTML + monthData.map((d, idx) => {
                 const monthName = `${d.year}年${d.month}月`;
                 let changeText = '';
                 let changeClass = 'neutral';
@@ -8348,10 +9144,16 @@
         function pad2(n) { return String(n).padStart(2, '0'); }
         function formatDateCN(dateStr) {
             if (!dateStr) return '— 未选择 —';
-            const [y, m, d] = dateStr.split('-');
+            const parts = dateStr.split('T');
+            const [y, m, d] = parts[0].split('-');
             const dt = new Date(Number(y), Number(m) - 1, Number(d));
             const weekdays = ['日','一','二','三','四','五','六'];
-            return `${y}年${Number(m)}月${Number(d)}日（周${weekdays[dt.getDay()]}）`;
+            const base = `${y}年${Number(m)}月${Number(d)}日（周${weekdays[dt.getDay()]}）`;
+            if (parts[1]) {
+                const [hh, mm] = parts[1].split(':');
+                return `${base} ${hh}:${mm}`;
+            }
+            return base;
         }
         function todayStr() {
             const d = new Date();
@@ -8375,18 +9177,62 @@
         let dpOnConfirm = null;
 
         function openDatePicker(initialDateStr, onConfirm) {
-            // 解析初值
+            // 解析初值（支持 YYYY-MM-DD 或 YYYY-MM-DDTHH:mm；不带时分默认 23:59）
+            let initialHour = 23;
+            let initialMinute = 59;
             if (initialDateStr) {
-                const [y, m, d] = initialDateStr.split('-').map(Number);
+                const parts = initialDateStr.split('T');
+                const datePart = parts[0];
+                if (parts[1]) {
+                    const [hh, mm] = parts[1].split(':').map(Number);
+                    if (!isNaN(hh)) initialHour = hh;
+                    if (!isNaN(mm)) initialMinute = mm;
+                }
+                const [y, m, d] = datePart.split('-').map(Number);
                 dpYear = y;
                 dpMonth = m - 1;
-                dpSelectedDate = initialDateStr;
+                dpSelectedDate = datePart;
             } else {
                 const t = new Date();
                 dpYear = t.getFullYear();
                 dpMonth = t.getMonth();
                 dpSelectedDate = '';
             }
+            // 初始化时分下拉
+            const hourSel = document.getElementById('dpHour');
+            const minuteSel = document.getElementById('dpMinute');
+            if (hourSel && hourSel.children.length === 0) {
+                for (let h = 0; h < 24; h++) {
+                    const opt = document.createElement('option');
+                    opt.value = h;
+                    opt.textContent = String(h).padStart(2, '0');
+                    hourSel.appendChild(opt);
+                }
+            }
+            if (minuteSel && minuteSel.children.length === 0) {
+                for (let mi = 0; mi < 60; mi += 5) {
+                    const opt = document.createElement('option');
+                    opt.value = mi;
+                    opt.textContent = String(mi).padStart(2, '0');
+                    minuteSel.appendChild(opt);
+                }
+            }
+            if (hourSel) hourSel.value = initialHour;
+            if (minuteSel) minuteSel.value = initialMinute;
+            const updateTimeHint = () => {
+                const hint = document.getElementById('dpTimeHint');
+                if (hint) {
+                    const h = parseInt(hourSel?.value ?? 23);
+                    const m = parseInt(minuteSel?.value ?? 59);
+                    hint.textContent = (h === 23 && m === 59)
+                        ? '默认 23:59（当天结束）'
+                        : `将在 ${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')} 截止`;
+                }
+            };
+            if (hourSel) hourSel.onchange = updateTimeHint;
+            if (minuteSel) minuteSel.onchange = updateTimeHint;
+            updateTimeHint();
+
             dpOnConfirm = (typeof onConfirm === 'function') ? onConfirm : null;
             updateDatePickerSelected();
             renderDatePicker();
@@ -8493,18 +9339,37 @@
             let target;
             if (key === 'today') target = new Date(today);
             else if (key === 'tomorrow') { target = new Date(today); target.setDate(target.getDate() + 1); }
+            else if (key === 'monthEnd') {
+                // 本月最后一天：下个月的第 0 天 = 本月最后一天
+                target = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+            }
             else { target = new Date(today); target.setDate(target.getDate() + parseInt(key)); }
             dpYear = target.getFullYear();
             dpMonth = target.getMonth();
             dpSelectedDate = `${dpYear}-${pad2(dpMonth + 1)}-${pad2(target.getDate())}`;
+            // 快捷选择默认时分 23:59
+            const hourSel = document.getElementById('dpHour');
+            const minuteSel = document.getElementById('dpMinute');
+            if (hourSel) hourSel.value = 23;
+            if (minuteSel) minuteSel.value = 59;
+            const hint = document.getElementById('dpTimeHint');
+            if (hint) hint.textContent = '默认 23:59（当天结束）';
             renderDatePicker();
             updateDatePickerSelected();
         }
         function confirmDatePicker() {
+            // 组装最终时间（YYYY-MM-DDTHH:mm）
+            const hourSel = document.getElementById('dpHour');
+            const minuteSel = document.getElementById('dpMinute');
+            const hh = hourSel ? parseInt(hourSel.value) : 23;
+            const mm = minuteSel ? parseInt(minuteSel.value) : 59;
+            const finalTime = dpSelectedDate
+                ? `${dpSelectedDate}T${String(hh).padStart(2, '0')}:${String(mm).padStart(2, '0')}`
+                : '';
             // 若调用方传入了 callback，用 callback 回写
             if (dpOnConfirm) {
                 try {
-                    dpOnConfirm(dpSelectedDate);
+                    dpOnConfirm(finalTime);
                 } catch (e) { console.warn('日期弹窗回调失败：', e); }
             }
             // 默认行为：写回详情弹窗的隐藏 input 和触发器（保持向后兼容）
@@ -8512,9 +9377,9 @@
             const display = document.getElementById('modalDueDisplay');
             const trigger = document.getElementById('modalDueTrigger');
             if (input && display && trigger) {
-                input.value = dpSelectedDate;
-                if (dpSelectedDate) {
-                    display.textContent = formatDateCN(dpSelectedDate);
+                input.value = finalTime;
+                if (finalTime) {
+                    display.textContent = formatDateCN(finalTime);
                     trigger.classList.remove('is-empty');
                 } else {
                     display.textContent = '未设置';
@@ -9481,12 +10346,27 @@
 
             document.querySelectorAll('.filter-tag').forEach(tag => {
                 tag.addEventListener('click', function() {
+                    // 排序按钮单独处理（data-sort 而不是 data-filter）
+                    if (this.classList.contains('sort-tag')) {
+                        document.querySelectorAll('.sort-tag').forEach(t => t.classList.remove('active'));
+                        this.classList.add('active');
+                        currentSort = this.dataset.sort;
+                        renderProjects();
+                        saveAppData();
+                        return;
+                    }
+                    // 状态筛选
                     document.querySelectorAll('.filter-tag').forEach(t => t.classList.remove('active'));
                     this.classList.add('active');
                     currentFilter = this.dataset.filter;
                     renderProjects();
                     saveAppData();
                 });
+            });
+
+            // 初始化时根据 currentSort 同步排序按钮 active 状态
+            document.querySelectorAll('.sort-tag').forEach(b => {
+                b.classList.toggle('active', b.dataset.sort === currentSort);
             });
 
             document.getElementById('modalClose').addEventListener('click', closeModal);
@@ -9874,6 +10754,39 @@
         }
 
         document.addEventListener('DOMContentLoaded', init);
+
+        // 米画师同步：URL hash 接收（扩展 background 用 #mhs_sync=... 打开）
+        (function checkMihuashiSyncHash() {
+            const hash = location.hash;
+            if (!hash.startsWith('#mhs_sync=')) return;
+            try {
+                const json = decodeURIComponent(hash.slice('#mhs_sync='.length));
+                const payload = JSON.parse(json);
+                if (!payload || payload.source !== 'mihuashi-extension' || !Array.isArray(payload.orders)) return;
+
+                // 等 init() 完成 + 一帧渲染后再导入
+                setTimeout(() => {
+                    try {
+                        const result = importMihuashiOrders(payload.orders);
+                        const total = payload.orders.length;
+                        if (result.imported > 0) {
+                            showToast(`✅ 已从米画师同步 ${result.imported} 个订单` +
+                                (result.skipped > 0 ? `（跳过 ${result.skipped} 个重复）` : ''), true);
+                        } else if (result.skipped > 0) {
+                            showToast(`⚠️ 所有 ${total} 个订单都已存在，未新增`);
+                        }
+                    } catch (e) {
+                        console.error('[米画师同步] 导入失败:', e);
+                        showToast('❌ 米画师同步失败：' + e.message);
+                    }
+                    // 清理 hash，避免刷新时重复导入
+                    try { history.replaceState(null, '', location.pathname + location.search); } catch {}
+                }, 800);
+            } catch (e) {
+                console.warn('[米画师同步] hash 数据解析失败:', e);
+                try { history.replaceState(null, '', location.pathname + location.search); } catch {}
+            }
+        })();
     </script>
 
 </body>
